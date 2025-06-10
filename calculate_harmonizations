@@ -1,0 +1,13 @@
+function calculate_harmonizations
+
+load CompleteData.mat
+CompleteData.diag(CompleteData.diag==0)=1;
+dep=CompleteData.siteid==18;
+CompleteDatac=CompleteData(~dep,:);
+tmp=combat(CompleteDatac{:,{'SN_Vol_bilat','SN_Med_ratio_bilat'}}',CompleteDatac.site_id,CompleteDatac.diag,1)';
+CompleteData{~dep,{'SN_Vol_bilat_adj','SN_Med_ratio_bilat_adj'}}=tmp;
+CompleteData{dep,{'SN_Vol_bilat_adj','SN_Med_ratio_bilat_adj'}}=CompleteDatac{dep,{'SN_Vol_bilat','SN_Med_ratio_bilat'}};
+CompleteData.diag(CompleteData.diag==1)=0;
+save(which("CompleteData.mat"),'CompleteData')
+end
+
